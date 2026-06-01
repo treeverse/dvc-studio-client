@@ -307,3 +307,91 @@ def test_check_token_authentication_success(mocker, mock_post):
         timeout=5,
         allow_redirects=False,
     )
+
+
+def test_start_device_login_with_new_parameters(mock_post, mocker):
+    """Test start_device_login with team scoping and expiration parameters"""
+    mock_post_obj = mock_post(
+        "requests.post",
+        [(200, MOCK_RESPONSE), (200, MOCK_RESPONSE)],
+    )
+
+    start_device_login(client_name="test", team_names=["team1"], expires_in_days=30)
+    start_device_login(client_name="test", all_teams=False, team_names=["team1"])
+
+    assert mock_post_obj.call_args_list == [
+        mocker.call(
+            url="https://studio.datachain.ai/api/device-login",
+            json={
+                "client_name": "test",
+                "team_names": ["team1"],
+                "expires_in_days": 30,
+            },
+            headers={"Content-type": "application/json"},
+            timeout=5,
+        ),
+        mocker.call(
+            url="https://studio.datachain.ai/api/device-login",
+            json={"client_name": "test", "all_teams": False, "team_names": ["team1"]},
+            headers={"Content-type": "application/json"},
+            timeout=5,
+        ),
+    ]
+
+
+def test_get_access_token_parameter_passthrough(mocker, mock_post):
+    """Test get_access_token passes new parameters to start_device_login"""
+    mocker.patch("webbrowser.open")
+    mocker.patch("time.sleep")
+    mock_login_post = mock_post("requests.post", [(200, MOCK_RESPONSE)])
+    mock_post("requests.Session.post", [(200, {"access_token": "token"})])
+
+    get_access_token(
+        hostname="https://example.com", team_names=["team1"], expires_in_days=7
+    )
+
+    assert mock_login_post.call_args == mocker.call(
+        url="https://example.com/api/device-login",
+        json={"client_name": "client", "team_names": ["team1"], "expires_in_days": 7},
+        headers={"Content-type": "application/json"},
+        timeout=5,
+    )
+
+
+def test_backwards_compatibility(mocker, mock_post):
+    """Test existing calls work unchanged"""
+    mocker.patch("webbrowser.open")
+    mocker.patch("time.sleep")
+    mock_login_post = mock_post("requests.post", [(200, MOCK_RESPONSE)])
+    mock_post("requests.Session.post", [(200, {"access_token": "token"})])
+
+    token_name, access_token = get_access_token(
+        hostname="https://example.com", scopes="experiments"
+    )
+
+    assert (token_name, access_token) == ("random-name", "token")
+    assert mock_login_post.call_args == mocker.call(
+        url="https://example.com/api/device-login",
+        json={"client_name": "client", "scopes": ["experiments"]},
+        headers={"Content-type": "application/json"},
+        timeout=5,
+    )
+
+
+def test_start_device_login_validation_all_teams_false_without_team_names():
+    """Test validation error when all_teams=False but team_names not provided"""
+    with pytest.raises(
+        ValueError, match="team_names must be specified when all_teams is False"
+    ):
+        start_device_login(client_name="test", all_teams=False)
+
+
+def test_start_device_login_validation_all_teams_false_with_team_names(mock_post):
+    """Test that all_teams=False works when team_names is provided"""
+    mock_post("requests.post", [(200, MOCK_RESPONSE)])
+
+    # This should work without raising an error
+    result = start_device_login(
+        client_name="test", all_teams=False, team_names=["team1"]
+    )
+    assert result == MOCK_RESPONSE

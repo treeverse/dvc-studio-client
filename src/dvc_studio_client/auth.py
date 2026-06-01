@@ -1,5 +1,5 @@
 import sys
-from typing import Optional, TypedDict, Union
+from typing import Any, Optional, TypedDict
 from urllib.parse import urljoin
 
 import requests
@@ -40,6 +40,12 @@ def get_access_token(  # noqa: PLR0913
     open_browser: bool = True,
     post_login_message: Optional[str] = None,
     use_device_code: bool = False,
+    # Team scoping parameters
+    team_names: Optional[list[str]] = None,
+    all_teams: Optional[bool] = None,
+    # Expiration parameters
+    expires_in_days: Optional[int] = None,
+    never_expires: Optional[bool] = None,
 ):
     """Initiate Authentication
 
@@ -55,6 +61,14 @@ def get_access_token(  # noqa: PLR0913
             the application requires. Default is empty.
         open_browser (bool): Whether or not to open the browser to authenticate
         client_name (str, optional): Client name
+
+    Team Scoping Parameters:
+        team_names (list[str], optional): List of team names to scope the token to.
+        all_teams (bool, optional): Grant access to all teams.
+
+    Expiration Parameters:
+        expires_in_days (int, optional): Token lifetime in days.
+        never_expires (bool, optional): Create a token that never expires.
 
     Returns
     -------
@@ -74,6 +88,10 @@ def get_access_token(  # noqa: PLR0913
         base_url=hostname,
         token_name=token_name,
         scopes=scopes.split(",") if scopes else [],
+        team_names=team_names,
+        all_teams=all_teams,
+        expires_in_days=expires_in_days,
+        never_expires=never_expires,
     )
     verification_uri = response["verification_uri"]
     user_code = response["user_code"]
@@ -103,12 +121,18 @@ def get_access_token(  # noqa: PLR0913
     return token_name, access_token
 
 
-def start_device_login(
+def start_device_login(  # noqa: PLR0913
     *,
     client_name: str,
     base_url: Optional[str] = None,
     token_name: Optional[str] = None,
     scopes: Optional[list[str]] = None,
+    # Team scoping parameters
+    team_names: Optional[list[str]] = None,
+    all_teams: Optional[bool] = None,
+    # Expiration parameters
+    expires_in_days: Optional[int] = None,
+    never_expires: Optional[bool] = None,
 ) -> DeviceLoginResponse:
     """This method starts the device login process for Studio.
 
@@ -121,6 +145,14 @@ def start_device_login(
         If not provided, the default value is "https://studio.datachain.ai".
     - token_name: The name of the token. If not provided, it defaults to None.
     - scopes: A list of scopes to request. If not provided, it defaults to None.
+
+    Team Scoping Parameters:
+    - team_names: A list of team names to scope the token to.
+    - all_teams: Grant access to all teams.
+
+    Expiration Parameters:
+    - expires_in_days: Token lifetime in days.
+    - never_expires: Create a token that never expires.
 
     Returns
     -------
@@ -145,13 +177,31 @@ def start_device_login(
                 f"Following scopes are not valid: {', '.join(invalid_scopes)}",
             )
 
-    body: dict[str, Union[str, list[str]]] = {"client_name": client_name}
+    # Validate team access parameters
+    if all_teams is False and not team_names:
+        raise ValueError(  # noqa: TRY003
+            "team_names must be specified when all_teams is False"
+        )
+
+    body: dict[str, Any] = {"client_name": client_name}
 
     if token_name:
         body["token_name"] = token_name
 
     if scopes:
         body["scopes"] = scopes
+
+    # Add team scoping parameters
+    if team_names:
+        body["team_names"] = team_names
+    if all_teams is not None:
+        body["all_teams"] = all_teams
+
+    # Add expiration parameters
+    if expires_in_days is not None:
+        body["expires_in_days"] = expires_in_days
+    if never_expires is not None:
+        body["never_expires"] = never_expires
 
     logger.debug(f"JSON body `{body=}`")
 

@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../../../assets/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -991,57 +991,7 @@ else:
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>dvc_studio_client/auth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
@@ -1049,7 +999,57 @@ else:
 <span class="normal">229</span>
 <span class="normal">230</span>
 <span class="normal">231</span>
-<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check_token_authentication</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check_token_authentication</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks the authentication status of a token based on a device code and</span>
 <span class="sd">    returns access token upon successful authentication.</span>
@@ -1118,7 +1118,7 @@ else:
 
 
 <h2 id="dvc_studio_client.auth.get_access_token" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_access_token</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">token_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">client_name</span><span class="o">=</span><span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="n">open_browser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">post_login_message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_device_code</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">get_access_token</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">token_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">client_name</span><span class="o">=</span><span class="s1">&#39;client&#39;</span><span class="p">,</span> <span class="n">open_browser</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">post_login_message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_device_code</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">team_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">all_teams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">expires_in_days</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">never_expires</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1137,7 +1137,19 @@ scopes (str, optional): A comma-separated string of scopes that
 open_browser (bool): Whether or not to open the browser to authenticate
 client_name (str, optional): Client name
 </code></pre>
-<h4 id="dvc_studio_client.auth.get_access_token--returns">Returns</h4>
+
+
+<details class="team-scoping-parameters" open>
+  <summary>Team Scoping Parameters</summary>
+  <p>team_names (list[str], optional): List of team names to scope the token to.
+all_teams (bool, optional): Grant access to all teams.</p>
+</details>
+
+<details class="expiration-parameters" open>
+  <summary>Expiration Parameters</summary>
+  <p>expires_in_days (int, optional): Token lifetime in days.
+never_expires (bool, optional): Create a token that never expires.</p>
+</details>        <h4 id="dvc_studio_client.auth.get_access_token--returns">Returns</h4>
 <pre><code>tuple: A tuple containing the token name and the access token.
 The token name is a string representing the token's name,
 while the access token is a string representing the authorized access token.
@@ -1215,7 +1227,25 @@ while the access token is a string representing the authorized access token.
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_access_token</span><span class="p">(</span>  <span class="c1"># noqa: PLR0913</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_access_token</span><span class="p">(</span>  <span class="c1"># noqa: PLR0913</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">token_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1224,6 +1254,12 @@ while the access token is a string representing the authorized access token.
     <span class="n">open_browser</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">post_login_message</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">use_device_code</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="c1"># Team scoping parameters</span>
+    <span class="n">team_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">all_teams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># Expiration parameters</span>
+    <span class="n">expires_in_days</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">never_expires</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initiate Authentication</span>
 
@@ -1239,6 +1275,14 @@ while the access token is a string representing the authorized access token.
 <span class="sd">            the application requires. Default is empty.</span>
 <span class="sd">        open_browser (bool): Whether or not to open the browser to authenticate</span>
 <span class="sd">        client_name (str, optional): Client name</span>
+
+<span class="sd">    Team Scoping Parameters:</span>
+<span class="sd">        team_names (list[str], optional): List of team names to scope the token to.</span>
+<span class="sd">        all_teams (bool, optional): Grant access to all teams.</span>
+
+<span class="sd">    Expiration Parameters:</span>
+<span class="sd">        expires_in_days (int, optional): Token lifetime in days.</span>
+<span class="sd">        never_expires (bool, optional): Create a token that never expires.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1258,6 +1302,10 @@ while the access token is a string representing the authorized access token.
         <span class="n">base_url</span><span class="o">=</span><span class="n">hostname</span><span class="p">,</span>
         <span class="n">token_name</span><span class="o">=</span><span class="n">token_name</span><span class="p">,</span>
         <span class="n">scopes</span><span class="o">=</span><span class="n">scopes</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">scopes</span> <span class="k">else</span> <span class="p">[],</span>
+        <span class="n">team_names</span><span class="o">=</span><span class="n">team_names</span><span class="p">,</span>
+        <span class="n">all_teams</span><span class="o">=</span><span class="n">all_teams</span><span class="p">,</span>
+        <span class="n">expires_in_days</span><span class="o">=</span><span class="n">expires_in_days</span><span class="p">,</span>
+        <span class="n">never_expires</span><span class="o">=</span><span class="n">never_expires</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">verification_uri</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;verification_uri&quot;</span><span class="p">]</span>
     <span class="n">user_code</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;user_code&quot;</span><span class="p">]</span>
@@ -1295,7 +1343,7 @@ while the access token is a string representing the authorized access token.
 
 
 <h2 id="dvc_studio_client.auth.start_device_login" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">start_device_login</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">client_name</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">start_device_login</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">client_name</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scopes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">team_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">all_teams</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">expires_in_days</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">never_expires</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1312,6 +1360,12 @@ while the access token is a string representing the authorized access token.
     If not provided, the default value is "https://studio.datachain.ai".
 - token_name: The name of the token. If not provided, it defaults to None.
 - scopes: A list of scopes to request. If not provided, it defaults to None.</p>
+<p>Team Scoping Parameters:
+- team_names: A list of team names to scope the token to.
+- all_teams: Grant access to all teams.</p>
+<p>Expiration Parameters:
+- expires_in_days: Token lifetime in days.
+- never_expires: Create a token that never expires.</p>
 <h4 id="dvc_studio_client.auth.start_device_login--returns">Returns</h4>
 <ul>
 <li>DeviceLoginResponse: A response object containing the device login information.</li>
@@ -1325,25 +1379,7 @@ while the access token is a string representing the authorized access token.
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>dvc_studio_client/auth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
@@ -1390,12 +1426,68 @@ while the access token is a string representing the authorized access token.
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
-<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">start_device_login</span><span class="p">(</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">start_device_login</span><span class="p">(</span>  <span class="c1"># noqa: PLR0913</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">client_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">base_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">token_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">scopes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># Team scoping parameters</span>
+    <span class="n">team_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">all_teams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># Expiration parameters</span>
+    <span class="n">expires_in_days</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">never_expires</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DeviceLoginResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This method starts the device login process for Studio.</span>
 
@@ -1408,6 +1500,14 @@ while the access token is a string representing the authorized access token.
 <span class="sd">        If not provided, the default value is &quot;https://studio.datachain.ai&quot;.</span>
 <span class="sd">    - token_name: The name of the token. If not provided, it defaults to None.</span>
 <span class="sd">    - scopes: A list of scopes to request. If not provided, it defaults to None.</span>
+
+<span class="sd">    Team Scoping Parameters:</span>
+<span class="sd">    - team_names: A list of team names to scope the token to.</span>
+<span class="sd">    - all_teams: Grant access to all teams.</span>
+
+<span class="sd">    Expiration Parameters:</span>
+<span class="sd">    - expires_in_days: Token lifetime in days.</span>
+<span class="sd">    - never_expires: Create a token that never expires.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1432,13 +1532,31 @@ while the access token is a string representing the authorized access token.
                 <span class="sa">f</span><span class="s2">&quot;Following scopes are not valid: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">invalid_scopes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
-    <span class="n">body</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;client_name&quot;</span><span class="p">:</span> <span class="n">client_name</span><span class="p">}</span>
+    <span class="c1"># Validate team access parameters</span>
+    <span class="k">if</span> <span class="n">all_teams</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">team_names</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>  <span class="c1"># noqa: TRY003</span>
+            <span class="s2">&quot;team_names must be specified when all_teams is False&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">body</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;client_name&quot;</span><span class="p">:</span> <span class="n">client_name</span><span class="p">}</span>
 
     <span class="k">if</span> <span class="n">token_name</span><span class="p">:</span>
         <span class="n">body</span><span class="p">[</span><span class="s2">&quot;token_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token_name</span>
 
     <span class="k">if</span> <span class="n">scopes</span><span class="p">:</span>
         <span class="n">body</span><span class="p">[</span><span class="s2">&quot;scopes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scopes</span>
+
+    <span class="c1"># Add team scoping parameters</span>
+    <span class="k">if</span> <span class="n">team_names</span><span class="p">:</span>
+        <span class="n">body</span><span class="p">[</span><span class="s2">&quot;team_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">team_names</span>
+    <span class="k">if</span> <span class="n">all_teams</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">body</span><span class="p">[</span><span class="s2">&quot;all_teams&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_teams</span>
+
+    <span class="c1"># Add expiration parameters</span>
+    <span class="k">if</span> <span class="n">expires_in_days</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">body</span><span class="p">[</span><span class="s2">&quot;expires_in_days&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">expires_in_days</span>
+    <span class="k">if</span> <span class="n">never_expires</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">body</span><span class="p">[</span><span class="s2">&quot;never_expires&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">never_expires</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;JSON body `</span><span class="si">{</span><span class="n">body</span><span class="si">=}</span><span class="s2">`&quot;</span><span class="p">)</span>
 
@@ -1534,10 +1652,10 @@ while the access token is a string representing the authorized access token.
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

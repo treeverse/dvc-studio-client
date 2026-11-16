@@ -4,7 +4,7 @@ from requests import Response
 
 from dvc_studio_client.auth import (
     AuthorizationExpiredError,
-    InvalidScopesError,
+    InvalidRoleError,
     check_token_authentication,
     get_access_token,
     start_device_login,
@@ -221,14 +221,40 @@ def test_start_device_login(capfd, mocker, mock_post):
     assert response == example_response
 
 
-def test_start_device_login_invalid_scopes(mock_post):
-    with pytest.raises(InvalidScopesError):
-        start_device_login(
-            base_url="https://example.com",
-            client_name="dvc",
-            token_name="token_name",
-            scopes=["INVALID!"],
-        )
+@pytest.mark.parametrize("scopes", [["JOBS"], ["INVALID!"]])
+def test_start_device_login_sends_scopes_as_given(mocker, mock_post, scopes):
+    mock_login_post = mock_post("requests.post", [(200, MOCK_RESPONSE)])
+
+    start_device_login(client_name="dvc", scopes=scopes)
+
+    assert mock_login_post.call_args == mocker.call(
+        url="https://studio.datachain.ai/api/device-login",
+        json={"client_name": "dvc", "scopes": scopes},
+        headers={"Content-type": "application/json"},
+        timeout=5,
+    )
+
+
+def test_start_device_login_role(mocker, mock_post):
+    mock_login_post = mock_post("requests.post", [(200, MOCK_RESPONSE)])
+
+    start_device_login(client_name="dvc", role="READ")
+
+    assert mock_login_post.call_args == mocker.call(
+        url="https://studio.datachain.ai/api/device-login",
+        json={"client_name": "dvc", "role": "read"},
+        headers={"Content-type": "application/json"},
+        timeout=5,
+    )
+
+
+def test_start_device_login_invalid_role(mock_post):
+    mock_login_post = mock_post("requests.post", [(200, MOCK_RESPONSE)])
+
+    with pytest.raises(InvalidRoleError):
+        start_device_login(client_name="dvc", role="owner")
+
+    mock_login_post.assert_not_called()
 
 
 def test_check_token_authentication_expired(mocker, mock_post):
@@ -353,6 +379,21 @@ def test_get_access_token_parameter_passthrough(mocker, mock_post):
     assert mock_login_post.call_args == mocker.call(
         url="https://example.com/api/device-login",
         json={"client_name": "client", "team_names": ["team1"], "expires_in_days": 7},
+        headers={"Content-type": "application/json"},
+        timeout=5,
+    )
+
+
+def test_get_access_token_role_passthrough(mocker, mock_post):
+    mocker.patch("webbrowser.open")
+    mock_login_post = mock_post("requests.post", [(200, MOCK_RESPONSE)])
+    mock_post("requests.Session.post", [(200, {"access_token": "token"})])
+
+    get_access_token(hostname="https://example.com", role="write")
+
+    assert mock_login_post.call_args == mocker.call(
+        url="https://example.com/api/device-login",
+        json={"client_name": "client", "role": "write"},
         headers={"Content-type": "application/json"},
         timeout=5,
     )

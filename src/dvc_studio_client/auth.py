@@ -7,7 +7,8 @@ from requests.adapters import HTTPAdapter
 
 from . import logger
 
-AVAILABLE_SCOPES = ["EXPERIMENTS", "DATASETS", "MODELS"]
+AVAILABLE_SCOPES = ["DATASETS", "JOBS", "MANAGEMENT", "EXPERIMENTS"]
+AVAILABLE_ROLES = ["read", "write", "admin"]
 
 
 class DeviceLoginResponse(TypedDict):
@@ -27,8 +28,26 @@ class InvalidScopesError(StudioAuthError):
     pass
 
 
+class InvalidRoleError(StudioAuthError):
+    pass
+
+
 class AuthorizationExpiredError(StudioAuthError):
     pass
+
+
+class StudioRequestError(StudioAuthError, requests.HTTPError):
+    pass
+
+
+def _raise_for_status(response: requests.Response) -> None:
+    if response.status_code == 400:
+        try:
+            detail = response.json().get("detail")
+        except ValueError:
+            detail = None
+        raise StudioRequestError(detail or response.text, response=response)
+    response.raise_for_status()
 
 
 def get_access_token(  # noqa: PLR0913
@@ -46,6 +65,7 @@ def get_access_token(  # noqa: PLR0913
     # Expiration parameters
     expires_in_days: Optional[int] = None,
     never_expires: Optional[bool] = None,
+    role: Optional[str] = None,
 ):
     """Initiate Authentication
 
@@ -70,6 +90,10 @@ def get_access_token(  # noqa: PLR0913
         expires_in_days (int, optional): Token lifetime in days.
         never_expires (bool, optional): Create a token that never expires.
 
+    Role Parameters:
+        role (str, optional): Role for the requested scopes: read, write or
+            admin. Studio defaults to admin when not set.
+
     Returns
     -------
         tuple: A tuple containing the token name and the access token.
@@ -92,6 +116,7 @@ def get_access_token(  # noqa: PLR0913
         all_teams=all_teams,
         expires_in_days=expires_in_days,
         never_expires=never_expires,
+        role=role,
     )
     verification_uri = response["verification_uri"]
     user_code = response["user_code"]
@@ -133,6 +158,7 @@ def start_device_login(  # noqa: PLR0913
     # Expiration parameters
     expires_in_days: Optional[int] = None,
     never_expires: Optional[bool] = None,
+    role: Optional[str] = None,
 ) -> DeviceLoginResponse:
     """This method starts the device login process for Studio.
 
@@ -154,28 +180,30 @@ def start_device_login(  # noqa: PLR0913
     - expires_in_days: Token lifetime in days.
     - never_expires: Create a token that never expires.
 
+    Role Parameters:
+    - role: Role for the requested scopes: read, write or admin.
+        Studio defaults to admin when not set.
+
     Returns
     -------
     - DeviceLoginResponse: A response object containing the device login information.
 
     Raises
     ------
-    - ValueError: If any of the provided scopes are not valid.
-    - RequestException: If the request fails with any 400 response or any other reason.
+    - ValueError: If all_teams is False and team_names is not set.
+    - InvalidRoleError: If the role is not read, write or admin.
+    - StudioRequestError: If Studio rejects the request with a 400, with its message.
+    - RequestException: If the request fails for any other reason.
 
     """
     logger.debug(
         "Starting device login for Studio%s",
         f" ({base_url})" if base_url else "",
     )
-    if scopes:
-        invalid_scopes: list[str]
-        if invalid_scopes := list(
-            filter(lambda s: s.upper() not in AVAILABLE_SCOPES, scopes),
-        ):
-            raise InvalidScopesError(  # noqa: TRY003
-                f"Following scopes are not valid: {', '.join(invalid_scopes)}",
-            )
+    if role and role.lower() not in AVAILABLE_ROLES:
+        raise InvalidRoleError(  # noqa: TRY003
+            f"Invalid role: {role}. Use one of: {', '.join(AVAILABLE_ROLES)}",
+        )
 
     # Validate team access parameters
     if all_teams is False and not team_names:
@@ -203,6 +231,9 @@ def start_device_login(  # noqa: PLR0913
     if never_expires is not None:
         body["never_expires"] = never_expires
 
+    if role:
+        body["role"] = role.lower()
+
     logger.debug(f"JSON body `{body=}`")
 
     response = requests.post(
@@ -214,7 +245,7 @@ def start_device_login(  # noqa: PLR0913
         timeout=5,
     )
 
-    response.raise_for_status()
+    _raise_for_status(response)
     d = response.json()
 
     logger.debug("received response: %s (status=%r)", d, response.status_code)

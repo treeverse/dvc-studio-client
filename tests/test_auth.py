@@ -1,3 +1,5 @@
+import re
+
 import pytest
 import requests
 from requests import Response
@@ -5,6 +7,7 @@ from requests import Response
 from dvc_studio_client.auth import (
     AuthorizationExpiredError,
     InvalidRoleError,
+    StudioRequestError,
     check_token_authentication,
     get_access_token,
     start_device_login,
@@ -255,6 +258,17 @@ def test_start_device_login_invalid_role(mock_post):
         start_device_login(client_name="dvc", role="owner")
 
     mock_login_post.assert_not_called()
+
+
+def test_start_device_login_rejected(mock_post):
+    detail = "Scope(s) ('FOO',) is not supported"
+    mock_post("requests.post", [(400, {"detail": detail})])
+
+    with pytest.raises(StudioRequestError, match=re.escape(detail)) as exc_info:
+        start_device_login(client_name="dvc", scopes=["FOO"])
+
+    assert isinstance(exc_info.value, requests.HTTPError)
+    assert exc_info.value.response.status_code == 400
 
 
 def test_check_token_authentication_expired(mocker, mock_post):

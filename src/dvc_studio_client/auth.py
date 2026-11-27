@@ -36,6 +36,20 @@ class AuthorizationExpiredError(StudioAuthError):
     pass
 
 
+class StudioRequestError(StudioAuthError, requests.HTTPError):
+    pass
+
+
+def _raise_for_status(response: requests.Response) -> None:
+    if response.status_code == 400:
+        try:
+            detail = response.json().get("detail")
+        except ValueError:
+            detail = None
+        raise StudioRequestError(detail or response.text, response=response)
+    response.raise_for_status()
+
+
 def get_access_token(  # noqa: PLR0913
     *,
     hostname: str,
@@ -178,7 +192,8 @@ def start_device_login(  # noqa: PLR0913
     ------
     - ValueError: If all_teams is False and team_names is not set.
     - InvalidRoleError: If the role is not read, write or admin.
-    - RequestException: If the request fails with any 400 response or any other reason.
+    - StudioRequestError: If Studio rejects the request with a 400, with its message.
+    - RequestException: If the request fails for any other reason.
 
     """
     logger.debug(
@@ -230,7 +245,7 @@ def start_device_login(  # noqa: PLR0913
         timeout=5,
     )
 
-    response.raise_for_status()
+    _raise_for_status(response)
     d = response.json()
 
     logger.debug("received response: %s (status=%r)", d, response.status_code)
